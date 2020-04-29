@@ -18,10 +18,10 @@ class FamilyExpressions extends Characteristics {
 		public String[][] Expressions;
 
 	//Constructor
-	public FamilyExpressions(String[] characters, String[][] expressions, String[] combos) {
+	public FamilyExpressions(String[] characters, String[][] expressions, String[] combinations) {
 		super(characters);
 		Combinations = new String[4];
-		Combinations = combos;
+		Combinations = combinations;
 		Expressions = new String[5][4];
 		Expressions = expressions;
 		
@@ -35,8 +35,8 @@ class Mother extends FamilyExpressions {
 	public String [] mGene;
 	
 	//Constructor
- 	public Mother(String[] characters, String[][] expressions, String[] combos) {
-		super(characters, expressions, combos);
+ 	public Mother(String[] characters, String[][] expressions, String[] combinations) {
+		super(characters, expressions, combinations);
 		mGene = new String[5];
  	}
  	public void motherName(String scannedName) {
@@ -51,8 +51,8 @@ class Father extends FamilyExpressions {
 		public String [] fGene;
 		
 		//Constructor
-		public Father(String[] characters, String[][] expressions, String[] combos) {
-			super(characters, expressions, combos);
+		public Father(String[] characters, String[][] expressions, String[] combinations) {
+			super(characters, expressions, combinations);
 			fGene = new String [5];
 		}
 		public void fatherName(String scannedName) {
@@ -66,10 +66,10 @@ public class Child {  // ---------------------Gene Selecting, Combining Process/
     	public static String nameGenerator(String scannedGender) {
     		String name;
     		Random Generator = new Random();
-    		String[] maleNames = { "Tony", "Bill", "Paul", "Nick", "Shane", "Brandon", "Travis", "Michael", "Joseph",
-    		"Ken" };
-    		String[] femaleNames = { "Katherine", "Michele", "Amy", "Laura", "Reina", "Sarah", "Sally", "Erica", "Justine",
-    		"Samantha" };
+    		String[] maleNames = {"Tony", "Bill", "Paul", "Nick", "Shane", "Brandon", "Travis", "Michael", "Joseph",
+    		"Ken"};
+    		String[] femaleNames = {"Katherine", "Michele", "Amy", "Laura", "Reina", "Sarah", "Sally", "Erica", "Justine",
+    		"Samantha"};
     		int index = Generator.nextInt(9);
     		if (scannedGender.equals("Male"))
     			name = maleNames[index];
@@ -79,13 +79,12 @@ public class Child {  // ---------------------Gene Selecting, Combining Process/
     	}//Names for children and parents
     	
     	public static String pronoun(String scannedName){
-    		String pronoun = "She";
-    		String[] maleNames = { "Tony", "Bill", "Paul", "Nick", "Shane", "Brandon", "Travis", "Michael", "Joseph",
-    		"Ken" };
-    		for (int i = 0; i < maleNames.length; i++) {
-    			if (maleNames[i].equals(scannedName))
-    				pronoun = "He";
-    		}
+    		String pronoun = "He";
+    		String[] femaleNames = {"Katherine", "Michele", "Amy", "Laura", "Reina", "Sarah", "Sally", "Erica", "Justine",
+    		"Samantha"};
+    		for (int i = 0; i < femaleNames.length; i++) {
+    			if (femaleNames[i].equals(scannedName))
+    				pronoun = "She"; }
     		return pronoun;
     	}//Child's pronoun during print segment
 
@@ -134,8 +133,7 @@ public class Child {  // ---------------------Gene Selecting, Combining Process/
     		if (expression(scanChildGenes, scanCombination, 4) == 0) {
     			output = "normal vision";
     		}
-    		else if (expression(scanChildGenes, scanCombination, 4) == 1
-    				|| (expression(scanChildGenes, scanCombination, 4) == 2))
+    		else if (expression(scanChildGenes, scanCombination, 4) == 1 || (expression(scanChildGenes, scanCombination, 4) == 2))
     			output = scanExpression[4][expression(scanChildGenes, scanCombination, 4)];
     		else
     			output =  scanExpression[4][expression(scanChildGenes, scanCombination, 4)];
@@ -154,11 +152,11 @@ public class Child {  // ---------------------Gene Selecting, Combining Process/
     		String[][] expressions = { { "brown", "blue", "green", "gray" }, { "brown", "black", "blonde", "red" },
     				{ "Male", "Female", "Female", "Male" }, { "6.5", "6", "5.5", "5" },
     				{ "normal-sighted", "near-sighted", "far-sighted", "colorblind" } };
-    		String[] combos = { "DD", "RR", "DR", "RD" };
+    		String[] combinations = { "DD", "RR", "DR", "RD" };
     		String[] characteristics = { "Eye Color", "Hair Color", "Sex", "Height", "Vision" };
 
-    		Mother mother = new Mother(characteristics, expressions, combos);
-    		Father father = new Father(characteristics, expressions, combos);
+    		Mother mother = new Mother(characteristics, expressions, combinations);
+    		Father father = new Father(characteristics, expressions, combinations);
 
     		//Child information loop
     		while(complete == false){
@@ -172,10 +170,10 @@ public class Child {  // ---------------------Gene Selecting, Combining Process/
     			String childName = nameGenerator(gender(child));
     			
     			System.out.println(childName + " is the child of " + mother.mName  + " and " + father.fName + ".");
-    			System.out.print(Child.pronoun(childName) + " was born with " + expressions[0][expression(child, combos, 0)] + " eyes, ");
-    			System.out.print(expressions[1][expression(child, combos, 1)] + " hair, "); 
-    			System.out.print("will grow to a height of " + expressions[3][expression(child, combos, 3)]);
-    			System.out.print(" and will be " + vision(child, combos, expressions) + "." );
+    			System.out.print(Child.pronoun(childName) + " was born with " + expressions[0][expression(child, combinations, 0)] + " eyes, ");
+    			System.out.print(expressions[1][expression(child, combinations, 1)] + " hair, "); 
+    			System.out.print("will grow to a height of " + expressions[3][expression(child, combinations, 3)]);
+    			System.out.print(" and will be " + vision(child, combinations, expressions) + "." );
     			System.out.println();
     			System.out.println();
 
