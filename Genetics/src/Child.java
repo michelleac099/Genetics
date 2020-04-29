@@ -1,8 +1,8 @@
 import java.util.Random;
+import java.util.Scanner;
 
-class Characteristics
-{
-	//{"Eye Color", "Hair Color", "Sex", "Height", "Vision"}
+class Characteristics {
+	
 	public String [] Characteristic;
 	
 	public Characteristics(String[] Ch) 
@@ -10,91 +10,187 @@ class Characteristics
 		Characteristic = new String [5];
 		Characteristic = Ch;
 	}
-}
+}//Characteristics
 
-class FamilyExpressions extends Characteristics
-{
-       //instance variable(s);
-       
-       //constructor 
-       {
-		   
-       }
+class FamilyExpressions extends Characteristics {
 	
-}
+		public String[] Combinations;
+		public String[][] Expressions;
 
-class Mother extends FamilyExpressions
-{
-       //instance variable;
-       
-       //constructor 
-       {
-		   
-       }
-       public void changeMother(String[]M) 
-       {
-    	   //add code;
-       }
-}
- 
-class Father 
-{
-        //instance variable;
-       // constructor 
-        {
-			
-        }
-        public void changeFather(String[]F) 
-        {
-        	//add code;
-        }
-}
+	//Constructor
+	public FamilyExpressions(String[] characters, String[][] expressions, String[] combos) {
+		super(characters);
+		Combinations = new String[4];
+		Combinations = combos;
+		Expressions = new String[5][4];
+		Expressions = expressions;
+		
+	}
+	
+}//FamilyExpressions
 
-public class Child
-{
-    public static void main(String[] args)
-    {   
-        Random gene = new Random();
-        String[] M = new String[5];
-        String[] F = new String[5];
-        String [] NoValues = new String[5];
+class Mother extends FamilyExpressions {
+	
+	public String mName;
+	public String [] mGene;
+	
+	//Constructor
+ 	public Mother(String[] characters, String[][] expressions, String[] combos) {
+		super(characters, expressions, combos);
+		mGene = new String[5];
+ 	}
+ 	public void motherName(String scannedName) {
+ 	mName = scannedName;
+ 	}
+ 	
+}//Mother
 
-//Characteristics, FamilyExpressions, and FamilyCombinations are fixed values
-//so they can be defined here in string arrays initialized with the values in the specifications
-        String [] [] Exp = {{"Brown","Blue","Green","Grey"},{"Brown","Black","Blonde","Red"},{"Male","Female","Female","Male"},{"6.5","6.0","5.5","5.0"},{"normal","near","far","color"}};
-    	String [] Comb = {"DD","RR","DR","RD"};
-        String [] Ch = {"Eye Color", "Hair Color", "Sex", "Height", "Vision"};
+class Father extends FamilyExpressions {
+	
+		public String fName;
+		public String [] fGene;
+		
+		//Constructor
+		public Father(String[] characters, String[][] expressions, String[] combos) {
+			super(characters, expressions, combos);
+			fGene = new String [5];
+		}
+		public void fatherName(String scannedName) {
+			fName = scannedName;
+		}
+		
+}//Father
 
-//Send constructor values for Characteristics, Family Expressions, and Family Combinations when constructing Mother
-//and use super to construct them. Initially construct Mother and Father with No gene Values.
-        Mother mother = new Mother(NoValues,Exp,Comb,Ch);
-        Father father = new Father(NoValues);
-        
+public class Child {  // ---------------------Gene Selecting, Combining Process/Printing----------------------
+	
+    	public static String nameGenerator(String scannedGender) {
+    		String name;
+    		Random Generator = new Random();
+    		String[] maleNames = { "Tony", "Bill", "Paul", "Nick", "Shane", "Brandon", "Travis", "Michael", "Joseph",
+    		"Ken" };
+    		String[] femaleNames = { "Katherine", "Michele", "Amy", "Laura", "Reina", "Sarah", "Sally", "Erica", "Justine",
+    		"Samantha" };
+    		int index = Generator.nextInt(9);
+    		if (scannedGender.equals("Male"))
+    			name = maleNames[index];
+    		else
+    			name = femaleNames[index];
+    		return name;
+    	}//Names for children and parents
+    	
+    	public static String pronoun(String scannedName){
+    		String pronoun = "She";
+    		String[] maleNames = { "Tony", "Bill", "Paul", "Nick", "Shane", "Brandon", "Travis", "Michael", "Joseph",
+    		"Ken" };
+    		for (int i = 0; i < maleNames.length; i++) {
+    			if (maleNames[i].equals(scannedName))
+    				pronoun = "He";
+    		}
+    		return pronoun;
+    	}//Child's pronoun during print segment
 
-//Now use some looping to allow reset of parents gene information and print the information for each child
-//Since Mother and Father genes are randomly generated, you should see different output for each iteration
-
-		//Now Create Mothers Genes M with a loop
-		//Generate a random number 1-100. If number >= 50 "R" else "D"
-		//Use changeMother() to reset Mother at end
- 
- 
- 
-        //Now Create Fathers Genes F with a loop
-		//Generate a random number 1-100. If number >= 50 "R" else "D"
-        //Use changeFather() to reset Father at end
-
-
-        //Use looping to iterate through all 5 characteristcs, printing the information for the child
-        //If the mother and father genes when combined match one of the 4 paired values in Combination the child inherits the Expression
-        //that for that Characteristic
-
-        //For example below: if mothers 'vision' gene 4 and fathers 'vision' gene 4 combined equal FamilyExpression Combination[1] 'DD' for Characteristic[4] 'vision'
-		//the child will inherit the FamilyExpression Expression[4][0] 'normal' and it will print 'Vision normal'.
-        if((mother.MGene[4]+father.FGene[4]).equals(mother.Combination[0])) 
-        {
-        	System.out.print(mother.Characteristic[4]+" "+mother.Expression[4][0]);
-        }
+    	public static String[] geneGeneration() {
     
-    }
-}
+    		String[] parentTrait = new String[5];
+    		Random Generator = new Random();
+    		
+    		for (int i = 0; i < parentTrait.length; i++) {
+    			int gene = Generator.nextInt(100) + 1;
+    			if (gene <= 50)
+    				parentTrait[i] = "D"; //dominant
+    			else
+    				parentTrait[i] = "R"; //recessive
+    		} 
+    		return parentTrait;
+    	}//Determining D or R Genes for parents
+
+    	public static String[] childGenes(String[] scanMother, String[] scanFather) {
+ 
+    		String[] childGenes = new String[5];
+    		for (int i = 0; i < 5; i++)
+    			childGenes[i] = scanMother[i] + scanFather[i];
+    		
+    		return childGenes;
+    	}//Child's genetics
+
+    	public static int expression(String[] child, String[] combination, int characteristic) {
+    		int slot = 0;
+    		for (int i = 0; i < combination.length; i++) {
+    			if (child[characteristic].equals(combination[i]))
+    				slot = i;
+    		} 
+    		return slot;
+    	}
+
+    	public static String gender(String[] genes) {
+    		if (genes[3].equals("DD") || genes[3].equals("RD"))
+    			return "Male";
+    		else
+    			return "Female";
+    	}//Gender trait
+
+    	public static String vision(String[] scanChildGenes, String[] scanCombination, String[][] scanExpression) {
+    		String output = null;
+    		if (expression(scanChildGenes, scanCombination, 4) == 0) {
+    			output = "normal vision";
+    		}
+    		else if (expression(scanChildGenes, scanCombination, 4) == 1
+    				|| (expression(scanChildGenes, scanCombination, 4) == 2))
+    			output = scanExpression[4][expression(scanChildGenes, scanCombination, 4)];
+    		else
+    			output =  scanExpression[4][expression(scanChildGenes, scanCombination, 4)];
+    		return output;
+    	}//Vision trait
+
+    	public static void main(String[] args) {
+    	
+    		Scanner scan = new Scanner(System.in);
+
+    		String input = null;
+    		boolean complete = false;
+    		
+    		//Characteristics and genes
+    		String [] child = new String[5];
+    		String[][] expressions = { { "brown", "blue", "green", "gray" }, { "brown", "black", "blonde", "red" },
+    				{ "Male", "Female", "Female", "Male" }, { "6.5", "6", "5.5", "5" },
+    				{ "normal-sighted", "near-sighted", "far-sighted", "colorblind" } };
+    		String[] combos = { "DD", "RR", "DR", "RD" };
+    		String[] characteristics = { "Eye Color", "Hair Color", "Sex", "Height", "Vision" };
+
+    		Mother mother = new Mother(characteristics, expressions, combos);
+    		Father father = new Father(characteristics, expressions, combos);
+
+    		//Child information loop
+    		while(complete == false){
+    			mother.motherName(nameGenerator("Female"));
+    			mother.mGene = geneGeneration();
+    			
+    			father.fatherName(nameGenerator("Male"));
+    			father.fGene = geneGeneration();
+    			
+    			child = childGenes(mother.mGene, father.fGene);
+    			String childName = nameGenerator(gender(child));
+    			
+    			System.out.println(childName + " is the child of " + mother.mName  + " and " + father.fName + ".");
+    			System.out.print(Child.pronoun(childName) + " was born with " + expressions[0][expression(child, combos, 0)] + " eyes, ");
+    			System.out.print(expressions[1][expression(child, combos, 1)] + " hair, "); 
+    			System.out.print("will grow to a height of " + expressions[3][expression(child, combos, 3)]);
+    			System.out.print(" and will be " + vision(child, combos, expressions) + "." );
+    			System.out.println();
+    			System.out.println();
+
+    			System.out.println("Would you like to do another simulation? Type Y or N: ");
+    			input = scan.next();
+    			if (input.equals("Y"))
+    				complete = false;
+    			else if (input.equals("N")) {
+    				complete = true;
+    				scan.close();  }
+    			
+    		}//while loop
+    		
+    		System.out.println();
+    	
+    }//main
+    
+}//Child
